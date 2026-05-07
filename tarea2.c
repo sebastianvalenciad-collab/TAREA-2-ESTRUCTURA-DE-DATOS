@@ -21,31 +21,35 @@ typedef struct
 } Rating;
 
 
-void mostrar_director(Film *peli)
+// Funcion para Mostrar  la lista de directores que hacen una pelicula.
+void mostrar_director(Film *peli) 
 {
-  char *director = list_first(peli->directors);
-  while(director != NULL)
+  char *director = list_first(peli->directors); // usamos el primer director
+  while(director != NULL) // si director es null entonces es porque no hay mas
   {
-    printf("%s ", director);
-    director = list_next(peli->directors);
+    printf("%s ", director); // printeamos
+    director = list_next(peli->directors); // avanzamos al director siguiente, si no hay otro es NULL y se acaba el codigo
   }
   printf("\n");
 }
 
+// Funcion para Mostrar la lista de generos de una pelicula
 void mostrar_generos(Film *peli)
 {
-  char *genero = list_first(peli->genres);
-  while(genero != NULL)
+  char *genero = list_first(peli->genres); // usamos el primer genero para recorrer la lista
+  while(genero != NULL) // si el genero es NULL no hay mas generos en la lista
   {
-    printf("%s ", genero);
-    genero = list_next(peli->genres);
+    printf("%s ", genero); 
+    genero = list_next(peli->genres); // avanzamos al siguiente genero
   }
   printf("\n");
 }
 
-void mostrar_pelicula(Film *peli)
+// Funcion para mostrar los datos de una pelicula
+void mostrar_pelicula(Film *peli) 
 {
-  printf("========================================");
+  // Solo printeamos los datos de la pelicula
+  printf("========================================\n"); 
   printf("ID de la pelicula: %s\n", peli->id);
   printf("Titulo: %s\n", peli->title);
   printf("Año de lanzamiento: %d\n", peli->year);
@@ -54,22 +58,22 @@ void mostrar_pelicula(Film *peli)
   printf("Genero/s: ");
   mostrar_generos(peli);
   
-  printf("Notas de los usuarios: ");
-  MapPair *nota_pair = map_first(peli->ratings);
-  if(nota_pair == NULL)
-  {
+  printf("Notas de los usuarios: "); 
+  MapPair *nota_pair = map_first(peli->ratings); // obtenemos el primer par del mapa de notas
+  if(nota_pair == NULL) // si es NULL entonces no hay notas en el mapa
+  { 
     printf("No hay notas para esta pelicula.");
   }
-  else
+  else // si hay mapas entonces recorremos el mapa hasta que encontremos un NULL
   {
     while(nota_pair != NULL)
     {
-      Rating *nota = (Rating *) nota_pair->value;
-      printf("%s: %d | ", nota->username, nota->nota);
-      nota_pair = map_next(peli->ratings);
+      Rating *nota = (Rating *) nota_pair->value; // rescatamos la nota
+      printf("%s: %d | ", nota->username, nota->nota); // printeamos el nombre del usuario y la nota
+      nota_pair = map_next(peli->ratings); // avanzamos en el mapa
     }
   }
-  printf("========================================");
+  printf("\n========================================\n");
   printf("\n\n");
 }
 
@@ -170,41 +174,41 @@ void cargar_peliculas(Map *pelis_byid, Map *pelis_bygenres, Map *pelis_bydirecto
     }
     
     // DIRECTORES
-    char *director = list_first(peli->directors);
-
-    while(director != NULL)
+    char *director = list_first(peli->directors); // obtenemos el primer director de la lista de directores de la pelicula
+    
+    while(director != NULL) // recorremos todos los directores de la pelicula
     {
-      MapPair *director_pair = map_search(pelis_bydirector, director);
+      MapPair *director_pair = map_search(pelis_bydirector, director); // Buscamos el director en el mapa de peliculas de directores
 
-      if(director_pair == NULL)
+      if(director_pair == NULL) // si el director no esta
       {
-        List *newlist = list_create();
-        list_pushBack(newlist, peli);
-        map_insert(pelis_bydirector, director, newlist);
+        List *newlist = list_create(); // creamos una lista
+        list_pushBack(newlist, peli); // agregamos la pelicula a la lista
+        map_insert(pelis_bydirector, director, newlist); // y al mapa de directores le agregamos el director y la lista de peliculas
       }
-      else
+      else // si el director esta agregamos la pelicula actual a la lista del director
       {
-        List *director_list = (List *) director_pair->value;
+        List *director_list = (List *) director_pair->value;  
         list_pushBack(director_list, peli);
       }
       director = list_next(peli->directors); // Avanzamos al next si es que hay mas de 1 director
     }
 
     // DECADA
-    int decada = (peli->year / 10) * 10;
-    MapPair *decada_pair = map_search(pelis_bydecada, &decada);
+    int decada = (peli->year / 10) * 10; // obtenemos la decada 
+    MapPair *decada_pair = map_search(pelis_bydecada, &decada); // buscamos la decada
 
-    if(decada_pair == NULL)
+    if(decada_pair == NULL) // si no esta la agregamos 
     {
       int *key = (int *) malloc(sizeof(int));
-      *key = decada;
+      *key = decada; // la llave es la decada
       List *newlist = list_create();
-      list_pushBack(newlist, peli);
+      list_pushBack(newlist, peli); // e insertamos la pelicula a la decada correspondiente
       map_insert(pelis_bydecada, key, newlist);
     }
     else
     {
-      List *decada_list = (List *) decada_pair->value;
+      List *decada_list = (List *) decada_pair->value; // si la decada esta solo agregamos la pelicula
       list_pushBack(decada_list, peli);
     }
     
@@ -233,7 +237,7 @@ void cargar_peliculas(Map *pelis_byid, Map *pelis_bygenres, Map *pelis_bydirecto
  * Busca y muestra la información de una película por su ID en un mapa.
  */
 void buscar_por_id(Map *pelis_byid) {
-  char id[10]; // Buffer para almacenar el ID de la película
+  char id[100]; // Buffer para almacenar el ID de la película
 
   // Solicita al usuario el ID de la película
   printf("Ingrese el id de la película: ");
@@ -260,24 +264,24 @@ void buscar_por_id(Map *pelis_byid) {
 // BUSCAR POR GENERO
 void buscar_por_genero(Map *pelis_bygenres)
 {
-  char genero[100];
+  char genero[100]; // variable que almacena el input del usuario
   printf("Ingresar genero: ");
   scanf(" %[^\n]", genero);
 
-  MapPair *genero_pair = map_search(pelis_bygenres, genero);
-  if(genero_pair == NULL)
+  MapPair *genero_pair = map_search(pelis_bygenres, genero); // buscamos si la entrada del usuario esta en el mapa de generos
+  if(genero_pair == NULL) // si es NULL es porque no existe en el mapa
   {
     printf("No se encontraron peliculas de este genero.\n");
     return;
   }
 
-  List *genero_lista = (List *) genero_pair->value;
-  Film *peli = list_first(genero_lista);
+  List *genero_lista = (List *) genero_pair->value; // obtenemos la lista de peliculas asociadas al genero
+  Film *peli = list_first(genero_lista); //obtenemos la primera pelicula de la lista
   
-  while(peli != NULL)
+  while(peli != NULL) // si la peli es NULL se acaba
   {
-    mostrar_pelicula(peli);
-    peli = list_next(genero_lista);
+    mostrar_pelicula(peli); // printeamos los datos de la pelicula
+    peli = list_next(genero_lista); // avanzamos a la siguiente pelicula
   }
 }
 
@@ -285,25 +289,25 @@ void buscar_por_genero(Map *pelis_bygenres)
 // BUSCAR POR DIRECTOR
 void buscar_por_director(Map *pelis_bydirector)
 {
-  char director[100];
+  char director[100]; // variable que almacena la entrada
   printf("Ingresar nombre del director: ");
-  scanf(" %[^\n]", director); // VERIFICAR
+  scanf(" %[^\n]", director); //
 
-  MapPair *director_pair = map_search(pelis_bydirector, director);
+  MapPair *director_pair = map_search(pelis_bydirector, director); // Buscamos si la entrada el usuario esta en el mapa de directores
   
-  if(director_pair == NULL)
+  if(director_pair == NULL) // si es NULL no existe en el mapa
   {
     printf("No se encontraron peliculas de este director\n");
     return;
   }
 
-  List *directores_lista = (List *) director_pair->value;
-  Film *peli = list_first(directores_lista);
+  List *directores_lista = (List *) director_pair->value; // obtenemos la lista de peliculas asociadas al director
+  Film *peli = list_first(directores_lista); // obtyenemos la primera pelicula de la lista
 
-  while(peli != NULL)
+  while(peli != NULL) // si es NULL se acaba el ciclo
   {
-    printf("%s\n", peli->title);
-    peli = list_next(directores_lista);
+    mostrar_pelicula(peli); // mostramos los datos de las peliculas
+    peli = list_next(directores_lista); // avanzamos al siguiente elemento de la lista de peliculas de directores
   }
 }
 
@@ -311,35 +315,35 @@ void buscar_por_director(Map *pelis_bydirector)
 //BUSCAR POR DECADA
 void buscar_por_decada(Map *pelis_bydecada)
 {
-  int decada;
+  int decada; // variable que guarda la decada
   printf("Ingresar decada a buscar: ");
   scanf("%d", &decada);
   
   printf("\n");
   
-  MapPair *decada_pair = map_search(pelis_bydecada, &decada);
+  MapPair *decada_pair = map_search(pelis_bydecada, &decada); // buscamos si la decada esta en el mapa de directores
 
-  if(decada_pair == NULL)
+  if(decada_pair == NULL) // si es NULL no existe esa decada en el mapa
   {
     printf("No se encontraron peliculas de esta decada\n");
     return;
   }
 
-  List *decada_list = (List *) decada_pair->value;
-  Film *peli = list_first(decada_list);
+  List *decada_list = (List *) decada_pair->value; // obtenemos la lista de  peliculas asociadas a la decada
+  Film *peli = list_first(decada_list); // obtenemos la primera pelicula de la lista
 
   while(peli != NULL)
   {
-    mostrar_pelicula(peli);
-    peli = list_next(decada_list);
-  }
+    mostrar_pelicula(peli); //  mostramos los datos de cada pelicula
+    peli = list_next(decada_list); // avanzamos a la siguiente pelicula
+  } 
 }
 
 //BUSQUEDA AVANZADA
 void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
 {
-  char genero[100];
-  int decada;
+  char genero[100]; // variable que guarda el genero
+  int decada; // variable que guarda la decada
 
   printf("Ingresar genero: ");
   scanf(" %[^\n]", genero);
@@ -347,31 +351,31 @@ void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
   printf("Ingresar decada: ");
   scanf("%d", &decada);
 
-  MapPair *generos_pair = map_search(pelis_bygenres, genero);
-  MapPair *decada_pair = map_search(pelis_bydecada, &decada);
+  MapPair *generos_pair = map_search(pelis_bygenres, genero); // buscamos si el genero esta en el mapa de generos
+  MapPair *decada_pair = map_search(pelis_bydecada, &decada); // buscamos si la decada esta en el mapa de decadas
 
-  if(generos_pair == NULL || decada_pair == NULL)
+  if(generos_pair == NULL || decada_pair == NULL) // si alguno es NULL no se pueden encontrar peliculas
   {
     printf("No se encontraron peliculas\n");
     return;
   }
 
-  List *genero_lista = (List *) generos_pair->value;
-  List *decada_lista = (List *) decada_pair->value;
+  List *genero_lista = (List *) generos_pair->value; // obtenemos la lista de peliculas asociadas al genero
+  List *decada_lista = (List *) decada_pair->value; // obtenemos la lista de peliculas asociadas a la decada
 
-  Film *peli = list_first(genero_lista);
-  while(peli != NULL)
+  Film *peli = list_first(genero_lista); // obtenemos la primera pelicula de la lista de peliculas del genero
+  while(peli != NULL) // recorremos hasta que sea NULL la pelicula
   {
-    Film *decada_peliculas = list_first(decada_lista);
+    Film *decada_peliculas = list_first(decada_lista); // obtenemos la primera pelicula de la lista de decada
     while(decada_peliculas != NULL)
     {
-      if(strcmp(peli->id, decada_peliculas->id) == 0) // comparamos ID's
+      if(strcmp(peli->id, decada_peliculas->id) == 0) // comparamos ID's de la pelicula de generos y de decadadas si son iguales entran al if
       {
-        mostrar_pelicula(peli);
+        mostrar_pelicula(peli); // mostramos la pelicula que esta en ambas listas
       }
-      decada_peliculas = list_next(decada_lista);
+      decada_peliculas = list_next(decada_lista); // avanzamos a la siguiente posicion
     }
-    peli = list_next(genero_lista);
+    peli = list_next(genero_lista); // avanzamos a la siguiente posicion
   }
 }
 
@@ -379,30 +383,30 @@ void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
 void agregar_watchlist(Map *pelis_byid, List *watchlist)
 {
   printf("\n");
-  char id[100];
+  char id[100]; // variable que guarda la id
   printf("Ingresar ID de la pelicula a agregar: ");
   scanf("%s", id);
 
-  MapPair *pelicula = map_search(pelis_byid, id);
-  if(pelicula == NULL)
+  MapPair *pelicula = map_search(pelis_byid, id); // buscamos la pelicula por el id
+  if(pelicula == NULL) // si es NULL la pelicula no existe
   {
     printf("No se encontro la pelicula  o no existe\n");
     return;
   }
   
-  Film *peli = list_first(watchlist);
-  Film *nueva = (Film *) pelicula->value;
+  Film *peli = list_first(watchlist); // tenemos el primer elemento de la lista watchlist
+  Film *nueva = (Film *) pelicula->value; // obtenemos la pelicula del ID anterior
 
   while(peli != NULL) // VERIFICAMOS QUE NO SE REPITA LA PELICULA
   {
-    if(strcmp(peli->id, id) == 0)
+    if(strcmp(peli->id, id) == 0) // si son iguales significa que la pelicula ya fue agregada, entonces no se agrega
     {
       printf("La pelicula ya esta en la watchlist\n");
       return;
     }
-    peli = list_next(watchlist);
+    peli = list_next(watchlist); // avanzamos en la watchlist
   }
-  list_pushBack(watchlist, nueva);
+  list_pushBack(watchlist, nueva);  // si no retornamos, entonces agregamos la pelicula a la watchlist
   printf("Pelicula agregada correctamente a la watchlist.\n");
 }
 
@@ -411,43 +415,45 @@ void agregar_watchlist(Map *pelis_byid, List *watchlist)
 void mostrar_watchlist(List *watchlist)
 {
   printf("\n");
-  Film *peli = list_first(watchlist);
-  if(peli == NULL)
+  Film *peli = list_first(watchlist); // obtenemos el primer elem,ento de la lista
+  if(peli == NULL) // Si es NULL Es porque no hay peliculas en la lista
   {
     printf("No hay peliculas guardadas\n");
     return;
   }
 
-  while(peli != NULL)
+  while(peli != NULL) // recorremos y mostramos los datos de las peliculas de la watchlist
   {
     mostrar_pelicula(peli);
     peli = list_next(watchlist);
   }
 }
 
+// ELIMINAR WATCHLIST
 void eliminar_watchlist(List *watchlist)
 {
-  char id[100];
+  char id[100]; // variable que guarda el id
   printf("Ingresar ID de la pelicula a ELIMINAR: ");
   scanf("%s", id);
   
-  Film *peli = list_first(watchlist);
-  while(peli != NULL)
+  Film *peli = list_first(watchlist); // obtenemos la primera pelicula de la watchlist
+  while(peli != NULL) 
   {
-    if(strcmp(peli->id, id) == 0)
+    if(strcmp(peli->id, id) == 0) // comparamos los ID's
     {
-      list_popCurrent(watchlist);
+      list_popCurrent(watchlist); // si son iguales eliminamos la pelicula de la watchlist
       printf("Pelicula eliminada correctamente.\n");
       return;
     }
-    peli = list_next(watchlist);
+    peli = list_next(watchlist); // avanzamos una posicion
   }
   printf("La pelicula no esta en la watchlist.\n");
 }
 
+// MENU DE LA WATCHLIST
 void gestionar_watchlist(Map *pelis_byid, List *watchlist)
 {
-  char opcion;
+  char opcion; // escoges una opcion entre 1 y 4 y haces la operacion que escogiste
   do
   {
     printf("\n");
@@ -458,7 +464,7 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
     printf("Ingresar opcion: ");
     scanf(" %c", &opcion);
 
-    switch(opcion)
+    switch(opcion) 
     {
       case '1':
         agregar_watchlist(pelis_byid, watchlist);
@@ -479,9 +485,9 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
 void calificar_pelicula(Map *pelis_byid)
 {
   printf("\n");
-  char id[100];
-  char username[100];
-  int nota;
+  char id[100]; // Variable que guarda el ID
+  char username[100]; // Variable que guarda el username
+  int nota; // Variable que guarda la nota
 
   printf("Ingresar ID de la pelicula: ");
   scanf("%s", id);
@@ -492,29 +498,29 @@ void calificar_pelicula(Map *pelis_byid)
   printf("Ingresar nota (1-10): ");
   scanf("%d",&nota);
 
-  if(nota < 1 || nota > 10)
+  if(nota < 1 || nota > 10) // verifiqcamos que la nota este en el rango entre 1 y 10
   {
     printf("Nota invalida (fuera de rango)\n");
     return;
   }
 
-  MapPair *pair = map_search(pelis_byid, id);
-  if(pair == NULL)
+  MapPair *pair = map_search(pelis_byid, id); // buscamos la pelicula
+  if(pair == NULL) // verificamos si existe
   {
     printf("La pelicula NO existe.\n");
     return;
   }
   
-  Film *peli = (Film *) pair->value;
+  Film *peli = (Film *) pair->value; // obtenemos la pelicula
   
-  MapPair *rating_pair = map_search(peli->ratings, username);
-  if(rating_pair != NULL)
+  MapPair *rating_pair = map_search(peli->ratings, username); // vemos si el usuario ya califico esta pelicula
+  if(rating_pair != NULL) // si ya existe actualizamos la nota
   {
     Rating *rating = (Rating *) rating_pair->value;
     rating->nota = nota;
     printf("Nota actualizada!\n");
   }
-  else
+  else // si no la califico, creamos una nueva nota y guardamos los datos
   {
     Rating *newrating = (Rating *) malloc(sizeof(Rating));
     strcpy(newrating->username, username);
@@ -530,12 +536,12 @@ int main() {
 
   // Crea un mapa para almacenar películas, utilizando una función de
   // comparación que trabaja con claves de tipo string.
-  Map *pelis_byid = map_create(is_equal_str);
-  Map *pelis_bygenres = map_create(is_equal_str);
-  Map *pelis_bydirector = map_create(is_equal_str);
-  Map *pelis_bydecada = map_create(is_equal_int);
+  Map *pelis_byid = map_create(is_equal_str); // mapa de ID's
+  Map *pelis_bygenres = map_create(is_equal_str); // mapa de generos
+  Map *pelis_bydirector = map_create(is_equal_str); // mapa de directores
+  Map *pelis_bydecada = map_create(is_equal_int); // mapa de decadas
   
-  List *watchlist = list_create();
+  List *watchlist = list_create(); // lista de watchlist
   
   do {
     mostrarMenuPrincipal();
