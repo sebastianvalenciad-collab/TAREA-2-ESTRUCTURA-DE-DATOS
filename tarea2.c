@@ -22,10 +22,10 @@ void mostrarMenuPrincipal() {
   puts("========================================");
 
   puts("1) Cargar Películas");
-  puts("2) Buscar por id");
-  puts("3) Buscar por director");
-  puts("4) Buscar por decada");
-  puts("5) ...");
+  puts("2) Buscar por ID");
+  puts("3) Buscar por Director");
+  puts("4) Buscar por Decada");
+  puts("5) Busqueda Avanzada");
   puts("6) ...");
   puts("7) ...");
   puts("8) Salir");
@@ -277,6 +277,53 @@ void buscar_por_decada(Map *pelis_bydecada)
   }
 }
 
+//BUSQUEDA AVANZADA
+void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
+{
+  char genero[100];
+  int decada;
+
+  printf("Ingresar genero: ");
+  scanf(" %[^\n]", genero);
+
+  printf("Ingresar decada: ");
+  scanf("%d", &decada);
+
+  MapPair *generos_pair = map_search(pelis_bygenres, genero);
+  MapPair *decada_pair = map_search(pelis_bydecada, &decada);
+
+  if(generos_pair == NULL || decada_pair == NULL)
+  {
+    printf("No se encontraron peliculas\n");
+    return;
+  }
+
+  List *genero_lista = (List *) generos_pair->value;
+  List *decada_lista = (List *) decada_pair->value;
+
+  Film *peli = list_first(genero_lista);
+  while(peli != NULL)
+  {
+    Film *decada_peliculas = list_first(decada_lista);
+    while(decada_peliculas != NULL)
+    {
+      if(strcmp(peli->id, decada_peliculas->id) == 0) // comparamos ID's
+      {
+        printf("ID: %s\n", peli->id);
+        printf("Titulo: %s\n", peli->title);
+        printf("Año de lanzamiento: %d\n", peli->year);
+        printf("Director/es: ");
+        mostrar_director(peli);
+        printf("Genero/s: ");
+        mostrar_generos(peli);
+        printf("\n");
+      }
+      decada_peliculas = list_next(decada_lista);
+    }
+    peli = list_next(genero_lista);
+  }
+}
+
 
 int main() {
   char opcion; // Variable para almacenar una opción ingresada por el usuario
@@ -309,6 +356,7 @@ int main() {
       buscar_por_decada(pelis_bydecada);
       break;
     case '5':
+      busqueda_avanzada(pelis_bygenres, pelis_bydecada);
       break;
     case '6':
       break;
