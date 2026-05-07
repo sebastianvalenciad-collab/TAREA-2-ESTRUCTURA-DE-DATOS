@@ -1,7 +1,15 @@
-En este *repl* puedes encontrar varios ejemplos que te pueden ayudar con las tareas de estructura.
+## Descripcion
+Este programa permite a los usuarios gestionar sus pendientes, ayudándolos a optimizar su tiempo. En él, se puede elegir la categoría a la cual pertenece cada tarea, así como registrar nuevos pendientes. Además, permite visualizar todas las tareas y categorías ingresadas, y también eliminar tanto tareas como categorías.
 
-## Código de Ejemplo (tarea1)
-Para ejecutar el ejemplo tarea1 primero debemos compilar (en la carpeta raíz)
+## Como ejecutar el codigo
+Este programa fue realizado en replit asi que les explicare como hacerlo funcionar en esta plataforma.
+Para ejecutar la tarea1 primero debemos seguir los siguientes pasos:
+
+1. Accede al repositorio de este codigo, y crea un nuevo repositorio usando el template
+2. Coloca en la opción Import code or design. Luego importa desde Github.
+3. Pega la dirección de tu repositorio y luego impórtalo (Import from Github).
+4. Agrega una pestaña “Shell”
+5. y ejecuta los siguientes codigos:
 ````
 gcc tdas/*.c tarea1.c -Wno-unused-result -o tarea1
 ````
@@ -11,23 +19,16 @@ Y luego ejecutar:
 ./tarea1
 ````
 
-## TDAs
-En la carpeta `tdas` se encuentran implementados distintos TDAs que puedes utilizar (lista, pila, cola, cola con prioridad y mapas). 
+## Funcionalidades
 
-Las implementaciones no son las más eficientes (todas usan como estructura de datos una **lista enlazada**), por lo que puedes reemplazarlas por las que has realizado en los labs.
+En mi código utilicé una lista para manejar las categorías y otra lista, utilizada como cola, para operar sobre las tareas.
+Tambien desarrolle las siguientes funcionalidades, las cuales todas estan operativas:
 
-## Otros códigos (en carpeta examples)
-Para ejecutar los distintos ejemplos que hay en la carpeta `examples`, primero debes compilarlos. Si estamos en la carpeta raíz:
-````
-gcc tdas/*.c examples/example2_menu.c -Wno-unused-result -o example
-````
-Y luego ejecutarlos:
-````
-./example
-````
-
-Se incluyen los siguientes ejemplos:
-* `example1_list`: Uso del TDA Lista, inserción y eliminación de elementos.
-* `example2_menu`: Ejemplo de menú con submenús.
-* `example3_readcsv`: Ejemplo de lectura desde un archivo csv y almacenamiento en datos estructurados.
-* `example4_map`: Ejemplo de uso del TDA mapa.
+- Cargar catalogo
+- Buscar por ID
+- Buscar por genero
+- Buscar por director
+- Buscar por Decada
+- Busqueda avanzada
+- Gestionar mi watchlist
+- Calificar pelicula
