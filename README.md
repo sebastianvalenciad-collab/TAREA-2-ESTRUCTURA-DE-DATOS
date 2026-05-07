@@ -11,12 +11,12 @@ Para ejecutar la tarea1 primero debemos seguir los siguientes pasos:
 4. Agrega una pestaña “Shell”
 5. y ejecuta los siguientes codigos:
 ````
-gcc tdas/*.c tarea1.c -Wno-unused-result -o tarea1
+gcc tdas/*.c tarea2.c -Wno-unused-result -o tarea2
 ````
 
 Y luego ejecutar:
 ````
-./tarea1
+./tarea2
 ````
 
 ## Funcionalidades
