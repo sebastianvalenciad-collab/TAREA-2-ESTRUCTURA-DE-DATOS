@@ -381,6 +381,26 @@ void mostrar_watchlist(List *watchlist)
   }
 }
 
+void eliminar_watchlist(List *watchlist)
+{
+  char id[100];
+  printf("Ingresar ID de la pelicula a ELIMINAR: ");
+  scanf("%s", id);
+  
+  Film *peli = list_first(watchlist);
+  while(peli != NULL)
+  {
+    if(strcmp(peli->id, id) == 0)
+    {
+      list_popCurrent(watchlist);
+      printf("Pelicula eliminada correctamente.\n");
+      return;
+    }
+    peli = list_next(watchlist);
+  }
+  printf("La pelicula no esta en la watchlist.\n");
+}
+
 void gestionar_watchlist(Map *pelis_byid, List *watchlist)
 {
   char opcion;
@@ -390,7 +410,7 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
     printf("1) Agregar Pelicular\n");
     printf("2) Eliminar Pelicula\n");
     printf("3) Mostrar Watchlist\n");
-    printf("4) Terminar\n");
+    printf("4) Salir\n");
     printf("Ingresar opcion: ");
     scanf(" %c", &opcion);
 
@@ -400,6 +420,7 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
         agregar_watchlist(pelis_byid, watchlist);
         break;
       case '2':
+        eliminar_watchlist(watchlist);
         break;
       case '3':
         mostrar_watchlist(watchlist);
