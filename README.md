@@ -6,6 +6,9 @@ Este programa fue realizado en replit asi que les explicare como hacerlo funcion
 Para ejecutar la tarea1 primero debemos seguir los siguientes pasos:
 
 1. Accede al repositorio de este codigo, y crea un nuevo repositorio usando el template
+````
+https://github.com/sebastianvalenciad-collab/TAREA-2-ESTRUCTURA-DE-DATOS
+````
 2. Coloca en la opción Import code or design. Luego importa desde Github.
 3. Pega la dirección de tu repositorio y luego impórtalo (Import from Github).
 4. Agrega una pestaña “Shell”
