@@ -21,6 +21,57 @@ typedef struct
 } Rating;
 
 
+void mostrar_director(Film *peli)
+{
+  char *director = list_first(peli->directors);
+  while(director != NULL)
+  {
+    printf("%s ", director);
+    director = list_next(peli->directors);
+  }
+  printf("\n");
+}
+
+void mostrar_generos(Film *peli)
+{
+  char *genero = list_first(peli->genres);
+  while(genero != NULL)
+  {
+    printf("%s ", genero);
+    genero = list_next(peli->genres);
+  }
+  printf("\n");
+}
+
+void mostrar_pelicula(Film *peli)
+{
+  printf("ID de la pelicula: %s\n", peli->id);
+  printf("Titulo: %s\n", peli->title);
+  printf("Año de lanzamiento: %d\n", peli->year);
+  printf("Director/s: ");
+  mostrar_director(peli);
+  printf("Genero/s: ");
+  mostrar_generos(peli);
+  
+  printf("Notas de los usuarios: ");
+  MapPair *nota_pair = map_first(peli->ratings);
+  if(nota_pair == NULL)
+  {
+    printf("No hay notas para esta pelicula.");
+  }
+  else
+  {
+    while(nota_pair != NULL)
+    {
+      Rating *nota = (Rating *) nota_pair->value;
+      printf("%s: %d | ", nota->username, nota->nota);
+      nota_pair = map_next(peli->ratings);
+    }
+  }
+  printf("\n\n");
+}
+
+
 // Menú principal
 void mostrarMenuPrincipal() {
   limpiarPantalla();
@@ -30,12 +81,13 @@ void mostrarMenuPrincipal() {
 
   puts("1) Cargar Películas");
   puts("2) Buscar por ID");
-  puts("3) Buscar por Director");
-  puts("4) Buscar por Decada");
-  puts("5) Busqueda Avanzada");
-  puts("6) Gestionar Watchlist");
-  puts("7) Calificar Pelicula");
-  puts("8) Salir");
+  puts("3) Buscar por Genero");
+  puts("4) Buscar por Director");
+  puts("5) Buscar por Decada");
+  puts("6) Busqueda Avanzada");
+  puts("7) Gestionar Watchlist");
+  puts("8) Calificar Pelicula");
+  puts("9) Salir");
 }
 
 /**
@@ -194,7 +246,7 @@ void buscar_por_id(Map *pelis_byid) {
     Film *peli =
         pair->value; // Obtiene el puntero a la estructura de la película
     // Muestra el título y el año de la película
-    printf("Título: %s, Año: %d\n", peli->title, peli->year);
+    mostrar_pelicula(peli);
   } else {
     // Si no se encuentra la película, informa al usuario
     printf("La película con id %s no existe\n", id);
@@ -228,27 +280,6 @@ void buscar_por_director(Map *pelis_bydirector)
   }
 }
 
-void mostrar_director(Film *peli)
-{
-  char *director = list_first(peli->directors);
-  while(director != NULL)
-  {
-    printf("%s ", director);
-    director = list_next(peli->directors);
-  }
-  printf("\n");
-}
-
-void mostrar_generos(Film *peli)
-{
-  char *genero = list_first(peli->genres);
-  while(genero != NULL)
-  {
-    printf("%s ", genero);
-    genero = list_next(peli->genres);
-  }
-  printf("\n");
-}
 
 //BUSCAR POR DECADA
 void buscar_por_decada(Map *pelis_bydecada)
@@ -272,14 +303,7 @@ void buscar_por_decada(Map *pelis_bydecada)
 
   while(peli != NULL)
   {
-    printf("ID de la pelicula: %s\n", peli->id);
-    printf("Titulo: %s\n", peli->title);
-    printf("Año de lanzamiento: %d\n", peli->year);
-    printf("Director/s: ");
-    mostrar_director(peli);
-    printf("Genero/s: ");
-    mostrar_generos(peli);
-    printf("\n");
+    mostrar_pelicula(peli);
     peli = list_next(decada_list);
   }
 }
@@ -316,14 +340,7 @@ void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
     {
       if(strcmp(peli->id, decada_peliculas->id) == 0) // comparamos ID's
       {
-        printf("ID: %s\n", peli->id);
-        printf("Titulo: %s\n", peli->title);
-        printf("Año de lanzamiento: %d\n", peli->year);
-        printf("Director/es: ");
-        mostrar_director(peli);
-        printf("Genero/s: ");
-        mostrar_generos(peli);
-        printf("\n");
+        mostrar_pelicula(peli);
       }
       decada_peliculas = list_next(decada_lista);
     }
@@ -376,14 +393,7 @@ void mostrar_watchlist(List *watchlist)
 
   while(peli != NULL)
   {
-    printf("ID: %s\n", peli->id);
-    printf("Titulo: %s\n", peli->title);
-    printf("Año de lanzamiento: %d\n", peli->year);
-    printf("Director/es: ");
-    mostrar_director(peli);
-    printf("Genero/s: ");
-    mostrar_generos(peli);
-    printf("\n");
+    mostrar_pelicula(peli);
     peli = list_next(watchlist);
   }
 }
@@ -441,6 +451,7 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
 // CALIFICAR PELICULA
 void calificar_pelicula(Map *pelis_byid)
 {
+  printf("\n");
   char id[100];
   char username[100];
   int nota;
@@ -512,24 +523,26 @@ int main() {
       buscar_por_id(pelis_byid);
       break;
     case '3':
-      buscar_por_director(pelis_bydirector);
       break;
     case '4':
-      buscar_por_decada(pelis_bydecada);
+      buscar_por_director(pelis_bydirector);
       break;
     case '5':
-      busqueda_avanzada(pelis_bygenres, pelis_bydecada);
+      buscar_por_decada(pelis_bydecada);
       break;
     case '6':
-      gestionar_watchlist(pelis_byid, watchlist);
+      busqueda_avanzada(pelis_bygenres, pelis_bydecada);
       break;
     case '7':
+      gestionar_watchlist(pelis_byid, watchlist);
+      break;
+    case '8':
       calificar_pelicula(pelis_byid);
       break;
     }
     presioneTeclaParaContinuar();
 
-  } while (opcion != '8');
+  } while (opcion != '9');
 
   return 0;
 }
