@@ -324,8 +324,10 @@ void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
   }
 }
 
+// AGREGAR PELICULA A WATCHLIST
 void agregar_watchlist(Map *pelis_byid, List *watchlist)
 {
+  printf("\n");
   char id[100];
   printf("Ingresar ID de la pelicula a agregar: ");
   scanf("%s", id);
@@ -336,9 +338,47 @@ void agregar_watchlist(Map *pelis_byid, List *watchlist)
     printf("No se encontro la pelicula  o no existe\n");
     return;
   }
-  Film *peli = (Film *) pelicula->value;
-  list_pushBack(watchlist, peli);
+  
+  Film *peli = list_first(watchlist);
+  Film *nueva = (Film *) pelicula->value;
+
+  while(peli != NULL) // VERIFICAMOS QUE NO SE REPITA LA PELICULA
+  {
+    if(strcmp(peli->id, id) == 0)
+    {
+      printf("La pelicula ya esta en la watchlist\n");
+      return;
+    }
+    peli = list_next(watchlist);
+  }
+  list_pushBack(watchlist, nueva);
   printf("Pelicula agregada correctamente a la watchlist.\n");
+}
+
+
+// MOSTRAR WATCHLIST
+void mostrar_watchlist(List *watchlist)
+{
+  printf("\n");
+  Film *peli = list_first(watchlist);
+  if(peli == NULL)
+  {
+    printf("No hay peliculas guardadas\n");
+    return;
+  }
+
+  while(peli != NULL)
+  {
+    printf("ID: %s\n", peli->id);
+    printf("Titulo: %s\n", peli->title);
+    printf("Año de lanzamiento: %d\n", peli->year);
+    printf("Director/es: ");
+    mostrar_director(peli);
+    printf("Genero/s: ");
+    mostrar_generos(peli);
+    printf("\n");
+    peli = list_next(watchlist);
+  }
 }
 
 void gestionar_watchlist(Map *pelis_byid, List *watchlist)
@@ -358,6 +398,11 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
     {
       case '1':
         agregar_watchlist(pelis_byid, watchlist);
+        break;
+      case '2':
+        break;
+      case '3':
+        mostrar_watchlist(watchlist);
         break;
     }
     
