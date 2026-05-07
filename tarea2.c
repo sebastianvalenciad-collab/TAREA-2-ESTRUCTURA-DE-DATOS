@@ -26,7 +26,7 @@ void mostrarMenuPrincipal() {
   puts("3) Buscar por Director");
   puts("4) Buscar por Decada");
   puts("5) Busqueda Avanzada");
-  puts("6) ...");
+  puts("6) Gestionar Watchlist");
   puts("7) ...");
   puts("8) Salir");
 }
@@ -324,6 +324,46 @@ void busqueda_avanzada(Map *pelis_bygenres, Map *pelis_bydecada)
   }
 }
 
+void agregar_watchlist(Map *pelis_byid, List *watchlist)
+{
+  char id[100];
+  printf("Ingresar ID de la pelicula a agregar: ");
+  scanf("%s", id);
+
+  MapPair *pelicula = map_search(pelis_byid, id);
+  if(pelicula == NULL)
+  {
+    printf("No se encontro la pelicula  o no existe\n");
+    return;
+  }
+  Film *peli = (Film *) pelicula->value;
+  list_pushBack(watchlist, peli);
+  printf("Pelicula agregada correctamente a la watchlist.\n");
+}
+
+void gestionar_watchlist(Map *pelis_byid, List *watchlist)
+{
+  char opcion;
+  do
+  {
+    printf("\n");
+    printf("1) Agregar Pelicular\n");
+    printf("2) Eliminar Pelicula\n");
+    printf("3) Mostrar Watchlist\n");
+    printf("4) Terminar\n");
+    printf("Ingresar opcion: ");
+    scanf(" %c", &opcion);
+
+    switch(opcion)
+    {
+      case '1':
+        agregar_watchlist(pelis_byid, watchlist);
+        break;
+    }
+    
+  } while(opcion != '4');
+}
+
 
 int main() {
   char opcion; // Variable para almacenar una opción ingresada por el usuario
@@ -335,8 +375,9 @@ int main() {
   Map *pelis_bygenres = map_create(is_equal_str);
   Map *pelis_bydirector = map_create(is_equal_str);
   Map *pelis_bydecada = map_create(is_equal_str);
-  // Recuerda usar un mapa por criterio de búsqueda
-
+  
+  List *watchlist = list_create();
+  
   do {
     mostrarMenuPrincipal();
     printf("Ingrese su opción: ");
@@ -359,6 +400,7 @@ int main() {
       busqueda_avanzada(pelis_bygenres, pelis_bydecada);
       break;
     case '6':
+      gestionar_watchlist(pelis_byid, watchlist);
       break;
     case '7':
       break;
