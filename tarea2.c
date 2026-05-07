@@ -45,6 +45,7 @@ void mostrar_generos(Film *peli)
 
 void mostrar_pelicula(Film *peli)
 {
+  printf("========================================");
   printf("ID de la pelicula: %s\n", peli->id);
   printf("Titulo: %s\n", peli->title);
   printf("Año de lanzamiento: %d\n", peli->year);
@@ -68,6 +69,7 @@ void mostrar_pelicula(Film *peli)
       nota_pair = map_next(peli->ratings);
     }
   }
+  printf("========================================");
   printf("\n\n");
 }
 
@@ -254,6 +256,31 @@ void buscar_por_id(Map *pelis_byid) {
 }
 
 // ---------------------------------------------------------------------------- 
+
+// BUSCAR POR GENERO
+void buscar_por_genero(Map *pelis_bygenres)
+{
+  char genero[100];
+  printf("Ingresar genero: ");
+  scanf(" %[^\n]", genero);
+
+  MapPair *genero_pair = map_search(pelis_bygenres, genero);
+  if(genero_pair == NULL)
+  {
+    printf("No se encontraron peliculas de este genero.\n");
+    return;
+  }
+
+  List *genero_lista = (List *) genero_pair->value;
+  Film *peli = list_first(genero_lista);
+  
+  while(peli != NULL)
+  {
+    mostrar_pelicula(peli);
+    peli = list_next(genero_lista);
+  }
+}
+
 
 // BUSCAR POR DIRECTOR
 void buscar_por_director(Map *pelis_bydirector)
@@ -506,7 +533,7 @@ int main() {
   Map *pelis_byid = map_create(is_equal_str);
   Map *pelis_bygenres = map_create(is_equal_str);
   Map *pelis_bydirector = map_create(is_equal_str);
-  Map *pelis_bydecada = map_create(is_equal_str);
+  Map *pelis_bydecada = map_create(is_equal_int);
   
   List *watchlist = list_create();
   
@@ -523,6 +550,7 @@ int main() {
       buscar_por_id(pelis_byid);
       break;
     case '3':
+      buscar_por_genero(pelis_bygenres);
       break;
     case '4':
       buscar_por_director(pelis_bydirector);
