@@ -11,8 +11,15 @@ typedef struct {
   List *genres;
   List *directors;
   int year;
-
+  Map *ratings;
 } Film;
+
+typedef struct 
+{
+  char username[100];
+  int nota;
+} Rating;
+
 
 // Menú principal
 void mostrarMenuPrincipal() {
@@ -27,7 +34,7 @@ void mostrarMenuPrincipal() {
   puts("4) Buscar por Decada");
   puts("5) Busqueda Avanzada");
   puts("6) Gestionar Watchlist");
-  puts("7) ...");
+  puts("7) Calificar Pelicula");
   puts("8) Salir");
 }
 
@@ -81,7 +88,7 @@ void cargar_peliculas(Map *pelis_byid, Map *pelis_bygenres, Map *pelis_bydirecto
     strcpy(peli->title, campos[5]);     // Asigna título
     peli->genres = split_string(campos[11], ",");       // Inicializa la lista de géneros
     peli->year = atoi(campos[10]); // Asigna año, convirtiendo de cadena a entero
-
+    peli->ratings = map_create(is_equal_str); // inicializamos el mapa de los ratings
     
     // Inserta la película en el mapa usando el ID como clave
     map_insert(pelis_byid, peli->id, peli);
@@ -431,6 +438,54 @@ void gestionar_watchlist(Map *pelis_byid, List *watchlist)
 }
 
 
+// CALIFICAR PELICULA
+void calificar_pelicula(Map *pelis_byid)
+{
+  char id[100];
+  char username[100];
+  int nota;
+
+  printf("Ingresar ID de la pelicula: ");
+  scanf("%s", id);
+
+  printf("Ingresar usuario: ");
+  scanf(" %[^\n]", username);
+
+  printf("Ingresar nota (1-10): ");
+  scanf("%d",&nota);
+
+  if(nota < 1 || nota > 10)
+  {
+    printf("Nota invalida (fuera de rango)\n");
+    return;
+  }
+
+  MapPair *pair = map_search(pelis_byid, id);
+  if(pair == NULL)
+  {
+    printf("La pelicula NO existe.\n");
+    return;
+  }
+  
+  Film *peli = (Film *) pair->value;
+  
+  MapPair *rating_pair = map_search(peli->ratings, username);
+  if(rating_pair != NULL)
+  {
+    Rating *rating = (Rating *) rating_pair->value;
+    rating->nota = nota;
+    printf("Nota actualizada!\n");
+  }
+  else
+  {
+    Rating *newrating = (Rating *) malloc(sizeof(Rating));
+    strcpy(newrating->username, username);
+    newrating->nota = nota;
+    map_insert(peli->ratings, newrating->username, newrating);
+    printf("Nota agregada correctamente!\n");
+  }
+}
+
 int main() {
   char opcion; // Variable para almacenar una opción ingresada por el usuario
                // (sin uso en este fragmento)
@@ -469,6 +524,7 @@ int main() {
       gestionar_watchlist(pelis_byid, watchlist);
       break;
     case '7':
+      calificar_pelicula(pelis_byid);
       break;
     }
     presioneTeclaParaContinuar();
