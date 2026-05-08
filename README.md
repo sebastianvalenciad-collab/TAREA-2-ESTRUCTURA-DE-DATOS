@@ -1,5 +1,5 @@
 ## Descripcion
-Este programa permite a los usuarios gestionar sus pendientes, ayudándolos a optimizar su tiempo. En él, se puede elegir la categoría a la cual pertenece cada tarea, así como registrar nuevos pendientes. Además, permite visualizar todas las tareas y categorías ingresadas, y también eliminar tanto tareas como categorías.
+Este programa permite cargar un catálogo de películas y realizar búsquedas por género, director, década o ID. Además, incluye una watchlist donde el usuario puede agregar películas para ver más tarde, eliminarlas o visualizar las películas guardadas. Finalmente, el sistema permite calificar las películas vistas por los usuarios.
 
 ## Como ejecutar el codigo
 Este programa fue realizado en replit asi que les explicare como hacerlo funcionar en esta plataforma.
@@ -24,8 +24,8 @@ Y luego ejecutar:
 
 ## Funcionalidades
 
-En mi código utilicé una lista para manejar las categorías y otra lista, utilizada como cola, para operar sobre las tareas.
-Tambien desarrolle las siguientes funcionalidades, las cuales todas estan operativas:
+En este codigo usamos mapas y listas, usamos un mapa para los ID's, generos, directores, decadas y en algunas funcionalidades mas pequeñas. Y usamos listas para la watchlist y para almacenar las peliculas en los mapas.
+Tambien desarrollamos las siguientes funcionalidades, las cuales todas estan operativas:
 
 - Cargar catalogo
 - Buscar por ID
