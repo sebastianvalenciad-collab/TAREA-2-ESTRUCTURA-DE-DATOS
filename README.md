@@ -36,10 +36,10 @@ Tambien desarrollamos las siguientes funcionalidades, las cuales todas estan ope
 - Gestionar mi watchlist
 - Calificar pelicula
 
-### Posibles falla:
+### Posibles fallas:
 
 - Si en el CSV cambiamos las columnas de posicion es posible que el codigo falle.
-- 
+- Se puede cargar muchas veces lo que puede hacer que se dupliquen las peliculas y los datos en general.
 
 ## Ejemplo de uso
 ### Paso 1: Cargar catalogo de peliculas.
