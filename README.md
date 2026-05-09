@@ -61,3 +61,12 @@ Luego de ver la pelicula, el usuario decide ponerle nota a la pelicula.
 El usuario finalmente decide revisar las peliculas guardadas de su lista
 <img width="256" height="200" alt="image" src="https://github.com/user-attachments/assets/8deb8fb7-1508-48c3-8ab6-099feb0c8fa9" />
 
+## Contribuciones
+# Sebastian Valencia:
+- Implemento Buscar por director, por decada, busqueda avanzada, gestionar mi watchlist.
+- Diseño y redaccion del readme.
+
+# Benjamin Madina:
+- Implemento buscar por genero, calificar pelicula.
+- Comentarios en el codigo.
+- Redaccion del readme.
