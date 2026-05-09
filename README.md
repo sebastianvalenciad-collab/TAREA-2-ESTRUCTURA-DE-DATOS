@@ -36,6 +36,11 @@ Tambien desarrollamos las siguientes funcionalidades, las cuales todas estan ope
 - Gestionar mi watchlist
 - Calificar pelicula
 
+### Posibles falla:
+
+- Si en el CSV cambiamos las columnas de posicion es posible que el codigo falle.
+- 
+
 ## Ejemplo de uso
 ### Paso 1: Cargar catalogo de peliculas.
 Primero, el usuario carga el archivo CSV que contiene todas las peliculas desponibles.
