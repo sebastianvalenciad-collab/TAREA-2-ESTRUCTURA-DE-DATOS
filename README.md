@@ -53,16 +53,31 @@ Ahora el usuario desea buscar peliculas del genero "Drama".
 El sistema muestra todas las peliculas asociadas a ese genero.
 <img width="350" height="221" alt="image" src="https://github.com/user-attachments/assets/5c61e96a-86a8-44b3-92c8-d7ea1236a636" />
 
-### Paso 3: Agregar una pelicula a la Watchlist.
+### Paso 3: Buscar una pelicula por director.
+El usuario desea buscar peliculas del director "David Lean", asique usa la opcion 4.
+<img width="342" height="242" alt="image" src="https://github.com/user-attachments/assets/268cbcbc-a7a6-46a0-a635-2285606099ff" />
+El sistema muestra todas las peliculas asociadas a ese director en especifico.
+
+### Paso 4: Buscar una pelicula por decada.
+Ahora el usuario quiere ver peliculas de la decada de los 1910.
+<img width="337" height="141" alt="image" src="https://github.com/user-attachments/assets/40e1b416-f6e8-466a-8784-197f0e0a8466" />
+El sistema busca en el catalogo, y muestra las peliculas asociadas a esa decada.
+
+### Paso 5: Busqueda Avanzada.
+El usuario quiere ver las peliculas de drama lanzadas en la decada de los 30, asi que usa la opcion 6.
+<img width="347" height="133" alt="image" src="https://github.com/user-attachments/assets/923ae165-906d-4f71-8435-9da3e835de9b" />
+El sistema filtra por genero y por decada y muestra las peliculas que cumplan con ambas especificaciones.
+
+### Paso 6: Agregar una pelicula a la Watchlist.
 El usuario decide guardar una pelicula para verla mas tarde.
 <img width="294" height="111" alt="image" src="https://github.com/user-attachments/assets/cf318af7-f91c-40d5-800c-f3a4cc18471c" />
 El sistema agrega correctamente la pelicula a la watchlist.
 
-### Paso 4: Calificar una pelicula.
+### Paso 7: Calificar una pelicula.
 Luego de ver la pelicula, el usuario decide ponerle nota a la pelicula.
 <img width="232" height="74" alt="image" src="https://github.com/user-attachments/assets/c522d0b1-a141-4860-9a60-75564fc48777" />
 
-### Paso 5: Mostrar la watchlist
+### Paso 8: Mostrar la watchlist
 El usuario finalmente decide revisar las peliculas guardadas de su lista
 <img width="256" height="200" alt="image" src="https://github.com/user-attachments/assets/8deb8fb7-1508-48c3-8ab6-099feb0c8fa9" />
 
